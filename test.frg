@@ -77,6 +77,22 @@ pred TransitionStep[pre, post: State] {
         seenNode->newNode->weight = minimum_edge // somehow want to say this
         post.seen_nodes = pre.seen_nodes + newNode
         post.chosen_edges = pre.chosen_edges + oldNode->newNode->weight
+    }
+}
+
+pred TransitionSteps {
+    some init, final: State | {
+        InitialState[init] 
+        FinalState[final]
+
+        all s1, s2: State | {
+            s1.next = s2
+            s1 != final
+            reachable[s2, s1, next]
         }
 
+        all s: State | {
+            (s != finalState and not reachable[s, finalState, next]) implies canTransition[s, s.next]
+        }
+    }
 }
