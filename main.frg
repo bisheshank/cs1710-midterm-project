@@ -5,37 +5,43 @@ sig State {}
 
 // Node holds the field of when it was seen during the traversal
 sig Node {
-    seen_nodes: pfunc Node -> set State
+    seen_nodes: pfunc State -> set State
 }
 
 // edge relation between the nodes and each each has a weight
 sig Edge {
-    edge: pfunc Node -> Int
-    chosen_edges: pfunc Node -> set State
+    edge: set Node -> Int
+    chosen_edges: pfunc State -> set State
 }
 
 // // to check the next node is not in the seen set
-// pred NextIntersectingNode[e: Edge, s: State] {
-//     some n1, n2: Node | {
-//         some w: Int | {
-//             n1 in Node.seen_nodes.s
-//             n2 in (Node - Node.seen_nodes.s)
-//             edge[n1] = edge[n2]
-//         }
-//     }
-// }
+pred NextIntersectingNode[e: Edge, s: State] {
+    some n1, n2: Node | {
+        some w: Int | {
+            n1 in e.edge & seen_nodes[s] // how to include the state in this
+            n2 in e.edge & (Node - seen_nodes[s])
+        }
+    }
+}
 
-// pred step[s1, s2: State] {
-//     // if all nodes covered
-//     seen_nodes.s1 = Node =>
-//         // all nodes and edges should be equal in s1 and s2
-//         Node.seen_nodes.s1 = Node.seen_nodes.s2 and Edge.chosen_edge.s1 = Edge.chosen_edge.s2
-//     else some e1, e2: Edge {
-//         // choose the next edge
-//         // edge should be the next intersecting node 
-//         NextIntersectingNode[e1, s1]
-//         Edge.chosen_edges = Edge.chosen_edges + e1
-//         Node.seen_nodes = e1.
-//     }
+pred Step[s1, s2: State] {
+    seen_nodes.s1 = Node =>
+        seen_nodes[s1] = seen_nodes[s2]
+        chosen_edge[s1] = chosen_edges[s2]
+    else some e: Edge | {
+        NextIntersectingNode[e, s1]
+        chosen_edges[s2] = chosen_edges[s1] + e
+        seen_nodes[s1] = seen_nodes[s2] + s1
+        }
+}
 
-// }
+// start node
+// set up a time step
+// final step
+
+
+pred SpanningTree[e: Edge] {
+    // final set of nodes must match the initial node
+    // #edges = #nodes - 1
+    // all nodes are reachable from every other node
+}
