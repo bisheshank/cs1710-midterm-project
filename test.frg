@@ -1,21 +1,17 @@
 #lang forge
 
 sig State {
-    // to establish time dependence
-    next: lone State
-    // a set of nodes that have been traversed 
-    seen_nodes: set Nodes
-    // a set of chosen edges by a set of node to node with a wieght of int
-    chosen_edges: set Node -> Node -> Int
+    next: lone State, -- next time state
+    seen: set Node, -- the set of seen nodes
+    chosen: set Node -> Node -> Int -- the set of chosen edges
 }
 
 sig Node {
-    edges: pfunc Node -> set Node -> Int
+    edges: set Node -> Int -- the set of edges connected to that Node with weight of Int
 }
 
 sig Start {
-    // one start node 
-    node: one Node
+    node: one Node -- one start Node
 }
 
 // get the  
@@ -24,10 +20,8 @@ sig Start {
 
 
 pred InitState[s: State] {
-    // the first node that is initialized
-    s.seen_nodes = Start.node
-    // there are no edges in the initial state
-    no s.chosen_edges
+    s.seen = Start.node -- the first Node that is traversed
+    no s.chosen -- no chosen edges in the initial state
 }
 
 
@@ -35,8 +29,8 @@ pred FinalState[s: State] {
     // when all the nodes are reachable from the first node
     all n1, n2: Node | {
         // both nodes have been traversed
-        n1 in s.seen_nodes
-        n2 in s.seen_nodes
+        n1 in s.seen
+n
         // n1 and n2 is reachable in the recursive set of edges, implying n2 is reachable from n1
         reachable[n1, n2, edges]
     }
@@ -46,20 +40,20 @@ pred TransitionStep[pre, post: State] {
     // connecting the pre and post states
     pre.next = post
     // if all nodes are visited
-    pre.seen_nodes = Node => // how do i say the set of all nodes
-        pre.seen_nodes = post.seen_nodes
-        pre.chosen_edges = post.chosen_edges
+    pre.seen = Node => // how do i say the set of all nodes
+        pre.seen = post.seen
+        pre.chosen = post.chosen    
     else some seenNode, newNode: Node, weight: Int | {
         // get the set of connected nodes
         // get the minimum int weight
         // keep that edge in the graph
-        seenNode in pre.seen_nodes
-        newNode not in pre.seen_nodes
+        seenNode in pre.seen
+        newNode not in pre.seen
 
         // set of connected edges to the node in n1
         let valid_connnected_edges = {some n1, n2: Node, w: Int | {
-            n1 in pre.seen_nodes
-            n2 not in pre.seen_nodes
+            n1 in pre.seen
+            n2 not in pre.seen
             n1->n2->w in edges
         }}
 
@@ -75,8 +69,8 @@ pred TransitionStep[pre, post: State] {
         }
 
         seenNode->newNode->weight = minimum_edge // somehow want to say this
-        post.seen_nodes = pre.seen_nodes + newNode
-        post.chosen_edges = pre.chosen_edges + oldNode->newNode->weight
+        post.seen = pre.seen + newNode
+        post.chosen = pre.chosen + oldNode->newNode->weight
     }
 }
 
@@ -96,3 +90,7 @@ pred TransitionSteps {
         }
     }
 }
+
+run {
+    TransitionSteps
+} for exactly 5 States, exactly 5: Node, exactly 5 Int for {next is linear}
