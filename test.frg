@@ -17,6 +17,21 @@ sig Start {
 // get the  
 // constraints on the graph: connected, undirected, edge: n1 n2 distinct nodes, 
 
+pred Connected {
+    all n1, n2: Node | {
+        reachable[n1, n2, edges.int]
+    }
+}
+
+pred Undirected {
+    all n1, n2: Node | {lone w: Int | {
+        n1->n2->w in edges implies n2->n1->w in edges
+    }}
+}
+
+pred Wellformed[s: State] {
+    all n1, n2: Node | {lone w: Int | {n1->n2->w in edges}}
+}
 
 
 pred InitState[s: State] {
@@ -24,13 +39,11 @@ pred InitState[s: State] {
     no s.chosen -- no chosen edges in the initial state
 }
 
-
 pred FinalState[s: State] {
     // when all the nodes are reachable from the first node
     all n1, n2: Node | {
         // both nodes have been traversed
         n1 in s.seen
-n
         // n1 and n2 is reachable in the recursive set of edges, implying n2 is reachable from n1
         reachable[n1, n2, edges]
     }
@@ -43,7 +56,7 @@ pred TransitionStep[pre, post: State] {
     pre.seen = Node => // how do i say the set of all nodes
         pre.seen = post.seen
         pre.chosen = post.chosen    
-    else some seenNode, newNode: Node, weight: Int | {
+    else {some seenNode, newNode: Node, weight: Int | {
         // get the set of connected nodes
         // get the minimum int weight
         // keep that edge in the graph
@@ -71,10 +84,10 @@ pred TransitionStep[pre, post: State] {
         seenNode->newNode->weight = minimum_edge // somehow want to say this
         post.seen = pre.seen + newNode
         post.chosen = pre.chosen + oldNode->newNode->weight
-    }
+    }}
 }
 
-pred TransitionSteps {
+pred TransitionStates {
     some init, final: State | {
         InitialState[init] 
         FinalState[final]
@@ -92,5 +105,5 @@ pred TransitionSteps {
 }
 
 run {
-    TransitionSteps
+    TransitionStates
 } for exactly 5 States, exactly 5: Node, exactly 5 Int for {next is linear}
