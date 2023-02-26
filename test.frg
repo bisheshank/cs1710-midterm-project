@@ -49,31 +49,34 @@ pred TransitionStep[pre, post: State] {
     pre.seen_nodes = Node => // how do i say the set of all nodes
         pre.seen_nodes = post.seen_nodes
         pre.chosen_edges = post.chosen_edges
-    else some n: Node | {
+    else some seenNode, newNode: Node, weight: Int | {
         // get the set of connected nodes
         // get the minimum int weight
         // keep that edge in the graph
+        seenNode in pre.seen_nodes
+        newNode not in pre.seen_nodes
 
-        let valid_connnected_edges = pre.edges[n] | {some n1, n2: Node, w: Int | {
+        // set of connected edges to the node in n1
+        let valid_connnected_edges = {some n1, n2: Node, w: Int | {
             n1 in pre.seen_nodes
             n2 not in pre.seen_nodes
-            n1 -> n2 -> w in edges
+            n1->n2->w in edges
         }}
-        
-        let weight_set = {some i: Int | {some n1, n2: Node | {n1->n2->i in valid_connected_edges}}}
 
-        // whats the diff between doing this and doing 
+        // set of weights from the connected edges
+        let valid_weights = {some i: Int | {some n1, n2: Node | {n1->n2->i in valid_connected_edges}}}
+
+        // getting the minimum edge
         let minimum_edge = {
             some n1, n2: Node, w: Int | {
-                n1->n2->w in valid_connected_nodes
-                
+                n1->n2->w in valid_connected_edges
+                w = min[valid_weights]
             }
         }
 
-
-
-        post.seen_nodes = pre.seen_nodes + n2
-        post.chosen_edges = pre.chosen_edges + n1->n2->w
+        seenNode->newNode->weight = minimum_edge // somehow want to say this
+        post.seen_nodes = pre.seen_nodes + newNode
+        post.chosen_edges = pre.chosen_edges + oldNode->newNode->weight
         }
 
 }
