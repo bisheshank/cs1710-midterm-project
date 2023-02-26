@@ -56,7 +56,7 @@ pred TransitionStep[pre, post: State] {
     pre.seen = Node => // how do i say the set of all nodes
         pre.seen = post.seen
         pre.chosen = post.chosen    
-    else {some seenNode, newNode: Node, weight: Int | {
+    else {some seenNode, newNode: Node, weight: Int | { -- dont know how to do this
         // get the set of connected nodes
         // get the minimum int weight
         // keep that edge in the graph
