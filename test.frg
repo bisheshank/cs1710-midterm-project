@@ -19,13 +19,13 @@ sig Start {
 
 pred Connected {
     all n1, n2: Node | {
-        reachable[n1, n2, edges.int]
+        reachable[n1, n2, edges.int] -- all nodes are reachable through the relational join of edges.int
     }
 }
 
 pred Undirected {
     all n1, n2: Node | {lone w: Int | {
-        n1->n2->w in edges implies n2->n1->w in edges
+        n1->n2->w in edges implies n2->n1->w in edges -- undirected graph n1->n2 implies there is n2->n1
     }}
 }
 
@@ -83,7 +83,7 @@ pred TransitionStep[pre, post: State] {
 
         seenNode->newNode->weight = minimum_edge // somehow want to say this
         post.seen = pre.seen + newNode
-        post.chosen = pre.chosen + oldNode->newNode->weight
+        post.chosen = pre.chosen + oldNode->newNode->weight + newNode->oldNode->weight -- idk if the second part is needed
     }}
 }
 
