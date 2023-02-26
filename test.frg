@@ -54,22 +54,19 @@ pred TransitionStep[pre, post: State] {
         // get the minimum int weight
         // keep that edge in the graph
 
-        let valid_connnected_nodes = pre.edges[n] | {some n1, n2: Node, w: Int | {
+        let valid_connnected_edges = pre.edges[n] | {some n1, n2: Node, w: Int | {
             n1 in pre.seen_nodes
             n2 not in pre.seen_nodes
             n1 -> n2 -> w in edges
         }}
+        
+        let weight_set = {some i: Int | {some n1, n2: Node | {n1->n2->i in valid_connected_edges}}}
 
-        let minimum_edge = 
-
-        let minimum_node = valid_connected_nodes | {
+        // whats the diff between doing this and doing 
+        let minimum_edge = {
             some n1, n2: Node, w: Int | {
-                n1->n2->w
-                w = min[valid_connected_nodes | {
-                    some i: Int | {
-
-                    }
-                }]
+                n1->n2->w in valid_connected_nodes
+                
             }
         }
 
