@@ -16,14 +16,12 @@ sig Node {
 
 pred connected { -- make sure every node is reachable from every other node
     all disj n1, n2: Node | {
-        reachable[n1, n2, {node1, node2: Node | some weight: Int | node1->node2->weight in edges}]
+        reachable[n1, n2, edges.Int]
     }
 }
 
 pred undirected { -- node1 to node2 edge implies there exists a node2 to node1
-    all n1, n2: Node | {
-        {lone weight: Int | n1->n2->weight in edges} implies {lone weight: Int | n2->n1->weight in edges}
-    }
+    all n: Node | edges.Int = Int.{edges} -- this doesnt work
 }
 
 pred noSelfNeighbour { -- no node should be a neighbour of itself
@@ -62,11 +60,12 @@ pred initState[s: State] { -- initial state conditions
 
 pred finalState[s: State] { -- final state conditions
     all n: Node {
-        n in s.seen
+        n in s.seen implies reachable[n, Start.start, chosen.Int] -- is this right?
     }
 }
 
 pred transitionSteps[pre, post: State] {
+    pre.next = post -- establish the relations between pre and post
     pre.seen = {Node} => { -- if every node is seen then nothing should change
         pre.seen = post.seen
         pre.chosen = post.chosen
@@ -76,7 +75,7 @@ pred transitionSteps[pre, post: State] {
             n1 in pre.seen
             n2 not in pre.seen
             n1->n2->weight in edges
-        }} |
+        }} |  
 
         -- get the min of the set of all weights between the n1 and n2 in connected_edges
         let minimumWeight = min[{i: Int | {some n1, n2: Node | n1->n2->i in connectedEdges}}] |
@@ -88,13 +87,16 @@ pred transitionSteps[pre, post: State] {
             }
         } |
 
-        // let newNode = {
-            // some oldNode, newNode: Node {
-            //     oldNode->newNode->minimumWeight in minimumEdge
-            //     post.seen = pre.seen + newNode
-            //     post.chosen = pre.chosen + oldNode->newNode->minimumWeight
-            // }
-        // }
+        let n = {
+            oldNode, newNode: Node | {
+                // old node should be the node connected to the minimum weight and in seen
+                // new node should be the node connected to the minimum weight and not in seen
+                // update seen and chosen to include the new node and edge respectively
+                oldNode->newNode->minimumWeight in minimumEdge
+                post.seen = pre.seen + newNode
+                post.chosen = pre.chosen + oldNode->newNode->minimumWeight
+            }
+        } 
     }
 }
 
