@@ -21,7 +21,8 @@ pred connected { -- make sure every node is reachable from every other node
 }
 
 pred undirected { -- node1 to node2 edge implies there exists a node2 to node1
-    all n: Node | edges.Int = Int.{edges} -- this doesnt work
+    edges.Int = ~{edges.Int} -- this doesnt work 
+    {i: Int | some n1, n2: Node | n1->n2->i in edges} = {i: Int | some n1, n2: Node | n2->n1->i in edges}
 }
 
 pred noSelfNeighbour { -- no node should be a neighbour of itself
@@ -60,7 +61,7 @@ pred initState[s: State] { -- initial state conditions
 
 pred finalState[s: State] { -- final state conditions
     all n: Node {
-        n in s.seen implies reachable[n, Start.start, chosen.Int] -- is this right?
+        reachable[n, Start.start, s.chosen.Int] implies (n in s.seen)-- is this right?
     }
 }
 
@@ -87,17 +88,17 @@ pred transitionSteps[pre, post: State] {
             }
         } |
 
-        let n = {
-            oldNode, newNode: Node | {
+        // let n = {
+            some oldNode, newNode: Node | {
                 // old node should be the node connected to the minimum weight and in seen
                 // new node should be the node connected to the minimum weight and not in seen
                 // update seen and chosen to include the new node and edge respectively
                 oldNode->newNode->minimumWeight in minimumEdge
                 post.seen = pre.seen + newNode
-                post.chosen = pre.chosen + oldNode->newNode->minimumWeight
+                post.chosen = pre.chosen + oldNode->newNode->minimumWeight + newNode->oldNode->minimumWeight
             }
         } 
-    }
+    // }
 }
 
 
