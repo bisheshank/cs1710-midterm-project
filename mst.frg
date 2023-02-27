@@ -73,3 +73,18 @@ pred traces {
 run {traces}
 for 4 Int, exactly 5 Node, exactly 5 Step, exactly 7 Edge 
 for {next is linear}
+
+
+/*
+To do:
+- Write tests?
+  - Is resulting tree minimal? (Don't think this is possible in Forge but manual tests can be written I suppose)
+  - Is resulting tree spanning
+  - Is resulting tree fully connected?
+  - Are there multiple different spanning trees
+  - Weird cases?
+    - No nodes?
+    - More edges than there should be?
+    - Less edges than there should be?
+  - Cases where wellformedness does not hold between steps?
+*/
