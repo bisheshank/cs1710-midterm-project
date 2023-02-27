@@ -27,13 +27,13 @@ pred undirected { -- node1 to node2 edge implies there exists a node2 to node1
 
 pred noSelfNeighbour { -- no node should be a neighbour of itself
     all n: Node | {
-        n not in {neighbour: Node | some weight: Int | neighbour->n->weight in edges}
+        n not in {neighbour: Node | some weight: Int | n->neighbour->weight in edges}
     }
 }
 
 pred oneConnection { -- each node should have only one neighbour
     all n1, n2: Node | {
-        some weight: Int | {
+        lone weight: Int | {
             n1->n2->weight in edges
         }
     }
