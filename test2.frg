@@ -33,7 +33,7 @@ pred noSelfNeighbour { -- no node should be a neighbour of itself
 
 pred oneConnection { -- each node should have only one neighbour
     all n1, n2: Node | {
-        lone weight: Int | {
+        some weight: Int | {
             n1->n2->weight in edges
         }
     }
@@ -61,7 +61,8 @@ pred initState[s: State] { -- initial state conditions
 
 pred finalState[s: State] { -- final state conditions
     all n: Node {
-        reachable[n, Start.start, s.chosen.Int] implies (n in s.seen)-- is this right?
+        reachable[n, Start.start, edges.Int] implies (n in s.seen)-- is this right?
+        -- how would i say the next edge from the chosen edges
     }
 }
 
@@ -106,6 +107,7 @@ pred transitionStates {
     all start, final: State {
         initState[start]
         finalState[final]
+
         all s: State | {
             s.next != start
             no final.next
@@ -116,6 +118,6 @@ pred transitionStates {
 }
 
 run {
-    transitionStates
     wellFormed
-} for exactly 3 Node, exactly 3 State, exactly 5 Int, exactly 1 Start for {next is linear}
+    transitionStates
+} for exactly 5 Node, exactly 5 State, exactly 5 Int, exactly 1 Start for {next is linear}
