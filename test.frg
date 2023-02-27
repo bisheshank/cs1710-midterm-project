@@ -53,10 +53,10 @@ pred TransitionStep[pre, post: State] {
     // connecting the pre and post states
     pre.next = post
     // if all nodes are visited
-    pre.seen = Node => {// how do i say the set of all nodes
+    pre.seen = Node => // how do i say the set of all nodes
         pre.seen = post.seen
         pre.chosen = post.chosen    
-    } else {some seenNode, newNode: Node, weight: Int | { -- dont know how to do this
+    else {some seenNode, newNode: Node, weight: Int | { -- dont know how to do this
         // get the set of connected nodes
         // get the minimum int weight
         // keep that edge in the graph
@@ -64,27 +64,25 @@ pred TransitionStep[pre, post: State] {
         newNode not in pre.seen
 
         // set of connected edges to the node in n1
-        let valid_connnected_edges = {n1, n2: Node, w: Int | {
+        let valid_connnected_edges = {some n1, n2: Node, w: Int | {
             n1 in pre.seen
             n2 not in pre.seen
             n1->n2->w in edges
         }}
 
         // set of weights from the connected edges
-        // let valid_weights = i: Int | {
-        //     n1, n2: Node | n1->n2->i in valid_connected_edges
-        // }
+        let valid_weights = {some i: Int | {some n1, n2: Node | {n1->n2->i in valid_connected_edges}}}
 
-        // // getting the minimum edge
-        // let minimum_edge = {
-        //     n1, n2: Node, w: Int | {
-        //         n1->n2->w in valid_connected_edges
-        //         w = min[valid_weights]
-        //     }
-        // }
+        // getting the minimum edge
+        let minimum_edge = {
+            some n1, n2: Node, w: Int | {
+                n1->n2->w in valid_connected_edges
+                w = min[valid_weights]
+            }
+        }
 
-        // seenNode->newNode->weight = minimum_edge // somehow want to say this
-        post.seen = (pre.seen + newNode)
+        seenNode->newNode->weight = minimum_edge // somehow want to say this
+        post.seen = pre.seen + newNode
         post.chosen = pre.chosen + oldNode->newNode->weight + newNode->oldNode->weight -- idk if the second part is needed
     }}
 }
