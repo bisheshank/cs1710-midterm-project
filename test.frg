@@ -14,6 +14,7 @@ sig Start {
     node: one Node -- one start Node
 }
 
+
 // get the  
 // constraints on the graph: connected, undirected, edge: n1 n2 distinct nodes, 
 
@@ -49,42 +50,33 @@ pred FinalState[s: State] {
     }
 }
 
+pred DoNothing[pre, post: State] {
+    pre.seen = post.seen
+    pre.chosen = post.chosen
+}
+
 pred TransitionStep[pre, post: State] {
     // connecting the pre and post states
     pre.next = post
     // if all nodes are visited
-    pre.seen = Node => // how do i say the set of all nodes
-        pre.seen = post.seen
-        pre.chosen = post.chosen    
-    else {some seenNode, newNode: Node, weight: Int | { -- dont know how to do this
-        // get the set of connected nodes
-        // get the minimum int weight
-        // keep that edge in the graph
-        seenNode in pre.seen
-        newNode not in pre.seen
-
-        // set of connected edges to the node in n1
-        let valid_connnected_edges = {some n1, n2: Node, w: Int | {
+    let valid_connected_edges = {n1, n2: Node, w: Int | {
             n1 in pre.seen
             n2 not in pre.seen
             n1->n2->w in edges
-        }}
-
-        // set of weights from the connected edges
-        let valid_weights = {some i: Int | {some n1, n2: Node | {n1->n2->i in valid_connected_edges}}}
-
-        // getting the minimum edge
-        let minimum_edge = {
-            some n1, n2: Node, w: Int | {
-                n1->n2->w in valid_connected_edges
-                w = min[valid_weights]
-            }
         }
+    }
 
-        seenNode->newNode->weight = minimum_edge // somehow want to say this
-        post.seen = pre.seen + newNode
-        post.chosen = pre.chosen + oldNode->newNode->weight + newNode->oldNode->weight -- idk if the second part is needed
-    }}
+    let set_weights = {n1, n2: Node, w: Int | {
+            n1->n2->w in valid_connected_edges
+        }
+    }
+
+    let edge_with_min_weight = {n1, n2: Node, w: Int | {
+            w = min[set_weights]
+            n1->n2->w in valid_connected_edges
+        }
+    }
+
 }
 
 pred TransitionStates {
@@ -98,8 +90,12 @@ pred TransitionStates {
             reachable[s2, s1, next]
         }
 
+        // all s: State | {
+        //     (s = final)
+        // }
+
         all s: State | {
-            (s != finalState and not reachable[s, finalState, next]) implies canTransition[s, s.next]
+            (s != final and not reachable[s, final, next]) implies canTransition[s, s.next]
         }
     }
 }
@@ -107,3 +103,5 @@ pred TransitionStates {
 run {
     TransitionStates
 } for exactly 5 States, exactly 5: Node, exactly 5 Int for {next is linear}
+
+// forge is a formal methods language similar to alloy, correct this above program which models prims algorithm
