@@ -1,8 +1,8 @@
-# Curiosity Modelling: Prim's Algorithm
+# Curiosity Modeling: Prim's Algorithm
 
-We are modeling Prim's algorithm, a greedy algorithm for finding the minimum spanning tree of a connected, undirected graph. The algorithm starts with a single node and repeatedly adds the edge with the smallest weight that connects a node in the current tree to a node outside the tree, until all nodes are included in the tree. The goal is to learn how the algorithm works and why it produces a minimum spanning tree along with modelling a real world algorithm in Forge.
+We are modeling Prim's algorithm, a greedy algorithm for finding the minimum spanning tree of a connected, undirected graph with non-negative edges. The algorithm starts with a single node and repeatedly adds the edge with the smallest weight that connects a node in the current tree to a node outside the tree, until all nodes are included in the tree. The goal is to learn how the algorithm works and why it produces a minimum spanning tree along with modeling a real world algorithm in Forge.
 
-Modelling Prim's turned out to be more difficult than we thought because of how recent we were to using set operations and full Forge. But, this project was a good learning opportunity to modelling actual algorithms in Forge.
+Modeling Prim's turned out to be more difficult than we thought because of how recently using set operations and full Forge was taught. However, this project was a good learning opportunity in learning to model actual algorithms in Forge.
 
 Our discussions let us to thinking about the model in two separate ways, and we ended up making attempts at both of them.
 
