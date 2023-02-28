@@ -20,9 +20,15 @@ pred connected { -- make sure every node is reachable from every other node
     }
 }
 
-pred undirected { -- node1 to node2 edge implies there exists a node2 to node1
+pred undirected2 { -- node1 to node2 edge implies there exists a node2 to node1
     edges.Int = ~{edges.Int} -- this doesnt work 
     {i: Int | some n1, n2: Node | n1->n2->i in edges} = {i: Int | some n1, n2: Node | n2->n1->i in edges}
+}
+
+pred undirected {
+    all n1, n2 : Node | {
+        {i: Int | n1->n2->i in edges} = {i: Int | n2->n1->i in edges}
+    }
 }
 
 pred noSelfNeighbour { -- no node should be a neighbour of itself
@@ -60,10 +66,12 @@ pred initState[s: State] { -- initial state conditions
 }
 
 pred finalState[s: State] { -- final state conditions
+    -- all nodes are reachable and if reachable it is in seen
     all n: Node {
         reachable[n, Start.start, edges.Int] implies (n in s.seen)-- is this right?
         -- how would i say the next edge from the chosen edges
     }
+    #{s.seen} = #{s.chosen} + 1 -- number of nodes is one greater than number of edges
 }
 
 pred transitionSteps[pre, post: State] {
@@ -96,7 +104,7 @@ pred transitionSteps[pre, post: State] {
                 // update seen and chosen to include the new node and edge respectively
                 oldNode->newNode->minimumWeight in minimumEdge
                 post.seen = pre.seen + newNode
-                post.chosen = pre.chosen + oldNode->newNode->minimumWeight + newNode->oldNode->minimumWeight
+                post.chosen = pre.chosen + oldNode->newNode->minimumWeight
             }
         } 
     // }
@@ -119,5 +127,5 @@ pred transitionStates {
 
 run {
     wellFormed
-    transitionStates
+    // transitionStates
 } for exactly 5 Node, exactly 5 State, exactly 5 Int, exactly 1 Start for {next is linear}
