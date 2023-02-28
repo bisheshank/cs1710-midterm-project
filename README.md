@@ -1,35 +1,24 @@
 # Curiosity Modelling: Prim's Algorithm
 
-## Installation
+We are modeling Prim's algorithm, a greedy algorithm for finding the minimum spanning tree of a connected, undirected graph. The algorithm starts with a single node and repeatedly adds the edge with the smallest weight that connects a node in the current tree to a node outside the tree, until all nodes are included in the tree. The goal is to learn how the algorithm works and why it produces a minimum spanning tree along with modelling a real world algorithm in Forge.
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Modelling Prim's turned out to be more difficult than we thought because of how recent we were to using set operations and full Forge. But, this project was a good learning opportunity to modelling actual algorithms in Forge.
 
-```bash
-pip install foobar
-```
+## Model Design
 
-## Usage
+In our second implementation, we have implemented the graph as the set of sig `Node`, which has a set of `edges: set Node->Int` with a set of nodes with a weight associated with it
 
-```python
-import foobar
+In this model, we have created an instance of the `wellFormed` signature and added nodes and edges to it. We then repeatedly choose the cheapest edge and add it to the MST until all nodes are included. We have verified that the resulting `MST` is indeed a minimum spanning tree by checking that it has the one less number of edges than the number of nodes and all nodes are reachable from any other node in the tree.
 
-# returns 'words'
-foobar.pluralize('word')
+We have not created a custom visualization for this project, but the instance produced by the Sterling visualizer should show the original graph, the minimum spanning tree, and the total weight of the tree.
 
-# returns 'geese'
-foobar.pluralize('goose')
+## Collaboration
 
-# returns 'phenomenon'
-foobar.singularize('phenomena')
-```
+We collaborated on this project by pair programming and discussing our design decisions. We received help from our TAs during office hours. (thank you Megan!!)
 
-## Contributing
+## Files
 
-Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+- `mst.frg`: Forge file containing the first implementation of the model
+- `mst2.frg`: Forge file containing the second implementation of the model
+- `README.md`: This file, containing the project description and design choices
+- `collaborators.txt`: A file listing the anonymous IDs of those we collaborated with (one ID per line)
