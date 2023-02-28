@@ -20,10 +20,10 @@ pred connected { -- make sure every node is reachable from every other node
     }
 }
 
-pred undirected2 { -- node1 to node2 edge implies there exists a node2 to node1
-    edges.Int = ~{edges.Int} -- this doesnt work 
-    {i: Int | some n1, n2: Node | n1->n2->i in edges} = {i: Int | some n1, n2: Node | n2->n1->i in edges}
-}
+// pred undirected2 { -- node1 to node2 edge implies there exists a node2 to node1
+//     edges.Int = ~{edges.Int} -- this doesnt work 
+//     {i: Int | some n1, n2: Node | n1->n2->i in edges} = {i: Int | some n1, n2: Node | n2->n1->i in edges}
+// }
 
 pred undirected {
     all n1, n2 : Node | {
