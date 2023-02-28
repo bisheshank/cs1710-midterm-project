@@ -33,6 +33,8 @@ We have not created a custom visualization for this project, but the instance pr
 
 ---
 
+TODO: SUMMARY OF BOTH IMPLEMENTATIONS
+
 ## Collaboration
 
 We collaborated on this project by pair programming and discussing our design decisions. We received help from our TAs during office hours. (thank you Megan!!)
