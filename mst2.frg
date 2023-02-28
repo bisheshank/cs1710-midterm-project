@@ -27,6 +27,7 @@ pred connected { -- make sure every node is reachable from every other node
 
 pred undirected {
     all n1, n2 : Node | {
+        -- making sure that the graph is undirected
         {i: Int | n1->n2->i in edges} = {i: Int | n2->n1->i in edges}
     }
 }
@@ -69,8 +70,7 @@ pred finalState[s: State] { -- final state conditions
     -- if reachable node then it is in s.seen
 
     all n: Node {
-        reachable[n, Start.start, edges.Int] implies (n in s.seen) -- is this right?
-        -- how would i say the next edge from the chosen edges
+        reachable[n, Start.start, edges.Int] implies (n in s.seen) -- reachable implies seen
     }
     // #{s.seen} = #{s.chosen} + 1 -- number of nodes is one greater than number of edges, will lead to int overflow
 }
