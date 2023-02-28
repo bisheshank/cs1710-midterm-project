@@ -66,12 +66,13 @@ pred initState[s: State] { -- initial state conditions
 }
 
 pred finalState[s: State] { -- final state conditions
-    -- all nodes are reachable and if reachable it is in seen
+    -- if reachable node then it is in s.seen
+
     all n: Node {
-        reachable[n, Start.start, edges.Int] implies (n in s.seen)-- is this right?
+        reachable[n, Start.start, edges.Int] implies (n in s.seen) -- is this right?
         -- how would i say the next edge from the chosen edges
     }
-    #{s.seen} = #{s.chosen} + 1 -- number of nodes is one greater than number of edges
+    // #{s.seen} = #{s.chosen} + 1 -- number of nodes is one greater than number of edges, will lead to int overflow
 }
 
 pred transitionSteps[pre, post: State] {
@@ -112,7 +113,7 @@ pred transitionSteps[pre, post: State] {
 
 
 pred transitionStates {
-    all start, final: State {
+    some start, final: State {
         initState[start]
         finalState[final]
 
@@ -127,5 +128,5 @@ pred transitionStates {
 
 run {
     wellFormed
-    // transitionStates
-} for exactly 5 Node, exactly 5 State, exactly 5 Int, exactly 1 Start for {next is linear}
+    transitionStates
+} for exactly 5 Node, exactly 5 State, exactly 1 Start for {next is linear}
