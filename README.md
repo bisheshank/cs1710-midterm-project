@@ -27,7 +27,7 @@ Our discussions let us to thinking about the model in two separate ways, and we 
 
 In our second implementation, we have implemented the graph as the set of sig `Node`, which has a set of `edges: set Node->Int` with a set of nodes with a weight associated with it. This model is a time-dependent stepwise traversal of the initial graph with each step updating the `seen` field, which holds the set of nodes traversed, and `chosen`, which holds a set of the edges chosen.
 
-In this model, we have created an instance of the `wellFormed` signature which holds the properties of a well-formed graph. We then repeatedly choose the cheapest edge and add it to the MST until all nodes are included. We have verified that the resulting `MST` is indeed a minimum spanning tree by checking that it has the one less number of edges than the number of nodes and all nodes are reachable from any other node in the tree. The test suit includes tests for all the preds and `transitionSteps`.
+In this model, we have created an instance of the `wellFormed` signature which holds the properties of a well-formed graph. We then repeatedly choose the cheapest edge and add it to the MST until all nodes are included. We have verified that the resulting `MST` is indeed a minimum spanning tree by checking that it has the one less number of edges than the number of nodes and all nodes are reachable from any other node in the tree. The test suit includes tests for all the preds of `wellFormed`, `initState`, `finalState` and `transitionSteps`.
 
 We have not created a custom visualization for this project, but the instance produced by the Sterling visualizer should show the original graph, the minimum spanning tree, and the total weight of the tree.
 
