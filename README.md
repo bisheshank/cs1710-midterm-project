@@ -15,7 +15,7 @@ Our discussions let us to thinking about the model in two separate ways, and we 
 - `mst.test.frg`: Forge file containing the tests for the second implementation of the model
 - `mst2.test.frg`: Forge file containing the tests for the second implementation of the model
 - `README.md`: This file, containing the project description and design choices
-- `collaborators.txt`: A file listing the anonymous IDs of those we collaborated with (one ID per line)
+- `collaborators`: A file listing the anonymous IDs of those we collaborated with (one ID per line)
 
 ---
 
