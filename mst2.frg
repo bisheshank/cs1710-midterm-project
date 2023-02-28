@@ -114,9 +114,10 @@ pred transitionSteps[pre, post: State] {
 
 pred transitionStates {
     some start, final: State {
-        initState[start]
-        finalState[final]
+        initState[start] -- start is the initial state
+        finalState[final] -- final is the final state
 
+        -- establishing the middle steps from initial to final
         all s: State | {
             s.next != start
             no final.next

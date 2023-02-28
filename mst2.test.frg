@@ -8,8 +8,9 @@ test suite for wellFormed {
         Node = `Node0 + `Node1 + `Node2
         Start = `Start0
         edges = `Node0->`Node1->1 +
-                `Node1->`Node2->2 +
-                `Node0->`Node2->3
-        seen = `Node0
+                `Node0->`Node2->3 +
+                `Node1->`Node2->2
+        start = `Start0->`Node1
+        seen = `S0->`Node1
     }
 }
