@@ -6,7 +6,6 @@ Modeling Prim's turned out to be more difficult than we thought because of how r
 
 Our discussions let us to thinking about the model in two separate ways, and we ended up making attempts at both of them.
 
----
 
 ## Files
 
@@ -17,11 +16,8 @@ Our discussions let us to thinking about the model in two separate ways, and we 
 - `README.md`: This file, containing the project description and design choices
 - `collaborators`: A file listing the anonymous IDs of those we collaborated with (one ID per line)
 
----
 
 ## Model Design: First Model
-
----
 
 ## Model Design: Second Model
 
@@ -31,7 +27,6 @@ In this model, we have created an instance of the `wellFormed` signature which h
 
 We have not created a custom visualization for this project, but the instance produced by the Sterling visualizer should show the original graph, the minimum spanning tree, and the total weight of the tree.
 
----
 
 TODO: SUMMARY OF BOTH IMPLEMENTATIONS
 
