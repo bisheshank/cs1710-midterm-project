@@ -6,7 +6,7 @@ sig State {
     chosen: set Node->Node->Int -- set of all chosen edges
 }
 
-sig Start {
+one sig Start {
     start: one Node -- one start node
 }
 
