@@ -6,8 +6,6 @@ Modeling Prim's turned out to be more difficult than we thought because of how r
 
 Our discussions let us to thinking about the model in two separate ways, and we ended up making attempts at both of them.
 
-TODO: WRITE ABOUT VISUALIZATION PROBLEMS
-
 ## Files
 
 - `mst.frg`: Forge file containing the first implementation of the model
@@ -17,19 +15,25 @@ TODO: WRITE ABOUT VISUALIZATION PROBLEMS
 - `README.md`: This file, containing the project description and design choices
 - `collaborators`: A file listing the anonymous IDs of those we collaborated with (one ID per line)
 
-
 ## Model Design: First Model
 
 ## Model Design: Second Model
 
-In our second implementation, we have implemented the graph as the set of sig `Node`, which has a set of `edges: set Node->Int` with a set of nodes with a weight associated with it. This model is a time-dependent stepwise traversal of the initial graph with each step updating the `seen` field, which holds the set of nodes traversed, and `chosen`, which holds a set of the edges chosen.
+In our second implementation, we have implemented the graph as the set of `sig Node`, which has a set of `edges: set Node->Int` with a set of nodes with a weight associated with it. This model is a time-dependent stepwise traversal of the initial graph with each step updating the `seen` field, which holds the set of nodes traversed, and `chosen`, which holds a set of the edges chosen.
 
 In this model, we have created an instance of the `wellFormed` signature which holds the properties of a well-formed graph. We then repeatedly choose the cheapest edge and add it to the MST until all nodes are included. We have verified that the resulting `MST` is indeed a minimum spanning tree by checking that it has the one less number of edges than the number of nodes and all nodes are reachable from any other node in the tree. The test suit includes tests for all the preds of `wellFormed`, `initState`, `finalState` and `transitionSteps`.
 
 We have not created a custom visualization for this project, but the instance produced by the Sterling visualizer should show the original graph, the minimum spanning tree, and the total weight of the tree.
 
+## Summary of Differences between Implementations
 
-TODO: SUMMARY OF BOTH IMPLEMENTATIONS
+Since we ended up with two attempts at modelling, we learned a lot about Forge set comprehension, and how scaling affects models based on their sig representations. In the first model, since there exists the `sig Edge`, it works for smaller model with small number of nodes and edges, but issues arise when scaling to bigger implementations. This is because of the definition of the `sig Edge` as it would introduce a quadratic relation between the number of nodes and the number of edges. So in such a graph, the maximum number of edges is equal to `N * (N - 1)` where `N` is the number of nodes in the graph.
+
+But our second implementation works better with scaling, because of `edges` being a set within each `sig Node` rather than a separate `sig`.
+
+## Visualization Issues
+
+In our first implementation, the default sterling visualizer has not captured the steps required to find the chosen edge and chosen nodes. In our second implementation, the visualizer works, but due to the undirected graph pred it does not correctly visual in the Graph view. Both however, have the correct MST in the Table view of the Sterling visualizer. If we had more time, we would add a separate predicate that could solve some visualizer issues.
 
 ## Collaboration
 
