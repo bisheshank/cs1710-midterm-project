@@ -6,6 +6,7 @@ Modeling Prim's turned out to be more difficult than we thought because of how r
 
 Our discussions let us to thinking about the model in two separate ways, and we ended up making attempts at both of them.
 
+TODO: WRITE ABOUT VISUALIZATION PROBLEMS
 
 ## Files
 
