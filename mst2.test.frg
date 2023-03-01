@@ -2,6 +2,13 @@
 
 open "mst2.frg"
 
+test expect {
+    canTransition: {
+        some pre, post: State | 
+            transitionSteps[pre, post]
+    } is sat
+}
+
 test suite for wellFormed {
     -- one node graph
     example validOneNode is {wellFormed} for {
