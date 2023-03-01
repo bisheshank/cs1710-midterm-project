@@ -1,17 +1,17 @@
 #lang forge
 
-sig Step {
-  next: lone Step,
-  chosen_nodes: set Node,
-  chosen_edges: set Edge
-}
-
 sig Node {}
 
 sig Edge { 
   weight: one Int,
   node1: one Node,
   node2: one Node
+}
+
+sig Step {
+  next: lone Step,
+  chosen_nodes: set Node,
+  chosen_edges: set Edge
 }
 
 pred validEdges {
