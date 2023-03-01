@@ -2,10 +2,40 @@
 
 open "mst2.frg"
 
+pred isSpanning[s: State] {
+    s.seen = {Node} -- all nodes are in seen
+    #{s.chosen} = #{Node} - 1 -- #edges = #nodes - 1
+    all n1, n2: Node | { -- any two nodes are reachable in any two nodes
+        reachable[n1, n2, edges.Int]
+    }
+}
+
 test expect {
+    -- checking if transition holds
     canTransition: {
-        some pre, post: State | 
+        some pre, post: State | {
+            pre.next = post
             transitionSteps[pre, post]
+        } 
+    } is sat
+
+    -- checking if final graph is spanning
+    finalStep: {
+        some pre, post: State | {
+            pre.next = post
+            transitionSteps[pre, post]
+            finalState[post]
+            isSpanning[post]
+        }
+    } is sat
+
+    --vacuity check
+    vacuous: {wellFormed} is sat
+
+    -- transitionStates check
+    transitionStatesCheck: {
+        wellFormed
+        transitionStates
     } is sat
 }
 
