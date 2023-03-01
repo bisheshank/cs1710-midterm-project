@@ -58,3 +58,43 @@ test suite for validEdges {
     node2 = `Edge0 -> `Node0 + `Edge1 -> `Node1 + `Edge2 -> `Node2
   }
 }
+
+test suite for init {
+  example noNodes is {no s: Step | init[s]} for {
+    Node = none
+    Edge = none
+    Step = `Step0
+    next = `Step0 -> none
+    chosen_nodes = none -> none
+    chosen_edges = none -> none
+  }
+
+  example oneNodes is {some s: Step | init[s]} for {
+    Node = `Node0
+    Edge = none
+    Step = `Step0
+    next = `Step0 -> none
+    chosen_nodes = `Step0 -> `Node0
+    chosen_edges = none -> none
+  }
+    // sig Step {
+    //   next: lone Step,
+    //   chosen_nodes: set Node,
+    //   chosen_edges: set Edge
+    // }
+
+    // sig Node {}
+
+    // sig Edge { 
+    //   weight: one Int,
+    //   node1: one Node,
+    //   node2: one Node
+    // }
+}
+
+/*
+
+We can test the init predicate to ensure that it correctly initializes the first step.
+Example test case: Create a graph with 5 nodes and 7 edges and initialize the first step. The program should choose exactly one node and no edges.
+
+*/
