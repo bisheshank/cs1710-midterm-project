@@ -5,9 +5,8 @@ open "mst2.frg"
 pred isSpanning[s: State] {
     s.seen = {Node} -- all nodes are in seen
     #{s.chosen} = #{Node} - 1 -- #edges = #nodes - 1
-    all n1, n2: Node | { -- any two nodes are reachable in any two nodes
+    all n1, n2: Node | -- any two nodes are reachable in any two nodes
         reachable[n1, n2, edges.Int]
-    }
 }
 
 test expect {
