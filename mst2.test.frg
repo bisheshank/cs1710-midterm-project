@@ -132,6 +132,7 @@ test suite for wellFormed {
 
 test suite for transitionSteps {
     example validTransitionSteps is {some s1, s2: State | transitionSteps[s1, s2]} for {
+        -- an example of a valid transition step taken
         State = `S0 + `S1
         Node = `Node0 + `Node1 + `Node2
         Start = `Start0
@@ -167,6 +168,7 @@ test suite for transitionSteps {
 
 test suite for initState {
     example validInitState is {some s: State | initState[s]} for {
+        -- valid Initial State for an undirected wellconnected graph
        State = `S0 + `S1
         Node = `Node0 + `Node1 + `Node2
         Start = `Start0
@@ -184,6 +186,7 @@ test suite for initState {
 
 test suite for finalState {
     example validFinalState is {some s: State | finalState[s]} for {
+        -- valid final step for an MST
         State = `S0 + `S1
         Node = `Node0 + `Node1
         Start = `Start0
