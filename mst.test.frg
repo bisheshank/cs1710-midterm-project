@@ -2,11 +2,6 @@
 
 open "mst.frg"
 
-// sig Edge { 
-//   weight: one Int,
-//   node1: one Node,
-//   node2: one Node
-// }
 
 test suite for validEdges {
   example noEdges is validEdges for {
@@ -69,7 +64,7 @@ test suite for init {
     chosen_edges = none -> none
   }
 
-  example oneNodes is {some s: Step | init[s]} for {
+  example oneNode is {some s: Step | init[s]} for {
     Node = `Node0
     Edge = none
     Step = `Step0
@@ -77,24 +72,25 @@ test suite for init {
     chosen_nodes = `Step0 -> `Node0
     chosen_edges = none -> none
   }
-    // sig Step {
-    //   next: lone Step,
-    //   chosen_nodes: set Node,
-    //   chosen_edges: set Edge
-    // }
+  
+  example sixNodes is {some s: Step | init[s]} for {
+    Node = `Node0 + `Node1 + `Node2 + `Node3 + `Node4 + `Node5
+    Edge = none
+    Step = `Step0
+    next = `Step0 -> none
+    chosen_nodes = `Step0 -> `Node0
+    chosen_edges = none -> none
+  }
 
-    // sig Node {}
-
-    // sig Edge { 
-    //   weight: one Int,
-    //   node1: one Node,
-    //   node2: one Node
-    // }
+  example twoNodesChosenEdge is {no s: Step | init[s]} for {
+    Node = `Node0 + `Node1
+    Edge = `Edge0
+    weight = `Edge0 -> 7
+    node1 = `Edge0 -> `Node1
+    node2 = `Edge0 -> `Node0
+    Step = `Step0
+    next = `Step0 -> none
+    chosen_nodes = `Step0 -> `Node0
+    chosen_edges = `Step0 -> `Edge0
+  }
 }
-
-/*
-
-We can test the init predicate to ensure that it correctly initializes the first step.
-Example test case: Create a graph with 5 nodes and 7 edges and initialize the first step. The program should choose exactly one node and no edges.
-
-*/
